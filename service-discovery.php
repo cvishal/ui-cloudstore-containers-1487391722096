@@ -16,6 +16,7 @@
 
 // Send a http request using curl
 function request($httpMethod, $url, $token = null){
+	console.log("Inside Request "+$url);
 	$curl = curl_init();
 	curl_setopt($curl, CURLOPT_URL, $url);
 	curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $httpMethod);
@@ -26,11 +27,14 @@ function request($httpMethod, $url, $token = null){
 		curl_setopt($curl, CURLOPT_HTTPHEADER, array("Authorization: Bearer " . $token));
 	}
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+	console.log("Executing  curl_exec "+$curl);
 	$result = curl_exec($curl);
 	if ($result === FALSE) {
 		die(curl_error($curl));
 	}
 	curl_close($curl);
+	console.log("Done  curl_exec "+$result);
+	
 	return $result;
 }
 ?>

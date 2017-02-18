@@ -10,12 +10,16 @@ $application = getenv("sgroup_name");
 //echo "\r\napplication:" . $application;
 $application_json = json_decode($application, true);
 $applicationURI = $application_json["application_uris"][0];
+console.log("ApplicationURI: " , $applicationURI); 
+
 //echo "\r\napplicationURI:" . $applicationURI;
 if (substr( $applicationURI, 0, 3 ) === "ui-") {
     $catalogHost = "catalog-api-" . substr($applicationURI, 3);
 } else {
     $catalogHost = str_replace("-ui-", "-catalog-api-", $applicationURI);
 }
+fwrite(STDOUT, '$catalogHost'); 
+
 //echo "\r\ncatalogHost:" . $catalogHost;    
 $catalogRoute = "http://" . $catalogHost;
 
@@ -29,6 +33,7 @@ var items = <?php echo $result;?>
 
 // Take the item JSON received from the catalog API and format it nicely
 function loadItems(){
+	console.log("Calling loadItems");
 	if(items.rows == undefined){
 		document.getElementById("loading").innerHTML = "";
 		return alert("Items is undefined. Please check that your catalog application is running. " + items);
@@ -39,6 +44,7 @@ function loadItems(){
 	}
 
 	document.getElementById("loading").innerHTML = "";
+	console.log("Done Calling loadItems");
 }
 
 // This function formats each item (product) using the JSON received from the catalog API app
@@ -53,6 +59,7 @@ function addItem(item){
 }
 
 function orderItem(itemID){
+	console.log("Placing order for "+itemID);
 	// Create a random customer ID and count
 	var custID = Math.floor((Math.random() * 999) + 1); 
 	var count = Math.floor((Math.random() * 9999) + 1); 
@@ -77,7 +84,7 @@ function orderItem(itemID){
 			console.log("Status: " , textStatus); console.log("Error: " , errorThrown); 
 		}  
 	});
-
+	console.log("Placing order done");
 }
 </script>
 
@@ -114,12 +121,6 @@ function orderItem(itemID){
 		<h2>Some Other Neat Products</h2>
 		<hr>
 		<div id='itemWell' class="row small-up-2 large-up-4">
-	</div>
-	<div class="callout large secondary">
-		<div class="row">
-				<h5>Microservices Store Demo</h5>
-				<p>You can find the blog post associated with this demo <a href="https://developer.ibm.com/bluemix/2015/03/16/sample-application-using-microservices-bluemix/" target="_blank">here</a></p>
-		</div>
 	</div>
 </body>
 </html>

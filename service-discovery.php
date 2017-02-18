@@ -19,6 +19,8 @@ function request($httpMethod, $url, $token = null){
 	$curl = curl_init();
 	curl_setopt($curl, CURLOPT_URL, $url);
 	curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $httpMethod);
+	curl_setopt($curl, CURLOPT_DNS_USE_GLOBAL_CACHE, false );
+	curl_setopt($curl, CURLOPT_DNS_CACHE_TIMEOUT, 2 );
 	// Set bearer authorization token if passed in
 	if (!is_null($token)){
 		curl_setopt($curl, CURLOPT_HTTPHEADER, array("Authorization: Bearer " . $token));
